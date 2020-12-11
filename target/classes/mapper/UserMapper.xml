@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qlhl.mapper.UserMapper" >
+
+
+  <sql id="row">
+        id,
+        username,
+        password,
+        name,
+        tel,
+        role_area,
+        shop_id,
+        salt,
+        roleId
+  </sql>
+    <select id="getUserByUserName" parameterType="string" resultType="com.qlhl.bean.User">
+        select
+        <include refid="row"/>
+        from
+        sys_user
+        where
+        username = #{username}
+    </select>
+</mapper>
