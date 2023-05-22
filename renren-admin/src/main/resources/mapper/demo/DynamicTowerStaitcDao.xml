@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.demo.dao.DynamicTowerStaitcDao">
+
+    <resultMap type="io.renren.modules.demo.entity.DynamicTowerStaitcEntity" id="dynamicTowerStaitcMap">
+        <result property="id" column="id"/>
+        <result property="stationId" column="station_id"/>
+        <result property="towerName" column="tower_name"/>
+        <result property="alertCount" column="alert_count"/>
+        <result property="alertDuration" column="alert_duration"/>
+        <result property="verticality" column="verticality"/>
+        <result property="vibrationPeriod" column="vibration_period"/>
+        <result property="stress" column="stress"/>
+        <result property="windSpeed" column="wind_speed"/>
+        <result property="riskScore" column="risk_score"/>
+        <result property="alertLevel1" column="alert_level_1"/>
+        <result property="alertLevel2" column="alert_level_2"/>
+        <result property="alertLevel3" column="alert_level_3"/>
+        <result property="staticDay" column="static_day"/>
+        <result property="createDate" column="create_date"/>
+    </resultMap>
+
+
+</mapper>

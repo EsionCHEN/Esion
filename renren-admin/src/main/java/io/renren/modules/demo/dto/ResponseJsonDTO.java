@@ -1,0 +1,12 @@
+package io.renren.modules.demo.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ResponseJsonDTO {
+    private String body;
+}

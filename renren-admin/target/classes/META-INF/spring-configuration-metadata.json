@@ -1,0 +1,11 @@
+{
+  "groups": [],
+  "properties": [
+    {
+      "name": "url.switch",
+      "type": "java.lang.String",
+      "description": "Description for url.switch."
+    }
+  ],
+  "hints": []
+}
