@@ -18,12 +18,12 @@ public interface TowerEnum {
     @Getter
     @AllArgsConstructor
     enum TowerType{
-        DAN_T(1,"2#单频天线塔","16","2#单频塔"),
-        DOUBLE_T(2,"1#双频天线塔","16","1#双频塔"),
-        SIG_T(3,"100m自立塔","10",""),
-        LA_T(4,"76m拉线塔","10",""),
-        DAN_P(5,"单频塔","3",""),
-        DOUBLE_P(6,"双频塔","3",""),
+        DAN_T(1,"2#单频天线塔","930","2#单频塔"),
+        DOUBLE_T(2,"1#双频天线塔","930","1#双频塔"),
+        SIG_T(3,"100m自立塔","924",""),
+        LA_T(4,"76m拉线塔","924",""),
+        DAN_P(5,"单频塔","917",""),
+        DOUBLE_P(6,"双频塔","917",""),
         FECH_T(7,"多塔","","")
         ;
         private Integer code;
