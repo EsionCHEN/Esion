@@ -133,7 +133,7 @@ public class XmlThread implements Runnable{
         // 创建 HttpClient 对象
         CloseableHttpClient httpClient = HttpClients.createDefault();
         // 创建 HttpPost 对象
-        HttpPost httpPost = new HttpPost("http://localhost:8080/admin/demo/dynamictoweralert/collect");
+        HttpPost httpPost = new HttpPost("http://localhost:8080/admin/demo/dynamictowerday/collect");
         // 设置 POST 请求的数据
         CloseableHttpResponse response = null;
         try {
