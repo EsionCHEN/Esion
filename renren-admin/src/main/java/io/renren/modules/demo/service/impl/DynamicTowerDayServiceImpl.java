@@ -111,7 +111,9 @@ public class DynamicTowerDayServiceImpl extends CrudServiceImpl<DynamicTowerDayD
                 String name = split[1];
                 if (Objects.nonNull(id)) {
                     String[] splitStation = id.split("-");
-                    dto.setStationId(Integer.parseInt(splitStation[1]));
+//                    dto.setStationId(Integer.parseInt(splitStation[1]));
+                    Integer code = Integer.parseInt(splitStation[1]);
+                    dto.setStationId(code);
                     dto.setStationName(name);
                 }
             }
@@ -177,16 +179,34 @@ public class DynamicTowerDayServiceImpl extends CrudServiceImpl<DynamicTowerDayD
                                                         dto.setCreateDate(new Date());
                                                     }
                                                     DynamicTowerDayEntity dynamicTowerStaitcEntity = new DynamicTowerDayEntity();
+
+
+                                                    Integer stationId = dto.getStationId();
+
+                                                    if(Integer.parseInt(TowerEnum.TowerType.DOUBLE_P.getTzname()) == stationId){
+                                                        //917->3
+                                                        stationId = 3;
+                                                    }
+                                                    if(Integer.parseInt(TowerEnum.TowerType.DAN_T.getTzname()) == stationId){
+                                                        //930->16
+                                                        stationId = 16;
+                                                    }
+                                                    if(Integer.parseInt(TowerEnum.TowerType.LA_T.getTzname())==stationId){
+                                                        //924->10
+                                                        stationId = 10;
+                                                    }
+
                                                     try {
                                                         BeanUtils.copyProperties(dynamicTowerStaitcEntity, dto);
                                                         LambdaQueryWrapper<DynamicTowerDayEntity> lambdaQueryWrapper = new LambdaQueryWrapper();
                                                         lambdaQueryWrapper.eq(DynamicTowerDayEntity::getStationName, dto.getStationName())
-                                                                .eq(DynamicTowerDayEntity::getStationId, dto.getStationId())
+                                                                .eq(DynamicTowerDayEntity::getStationId, stationId)
                                                                 .eq(DynamicTowerDayEntity::getTowerName, dto.getTowerName())
                                                                 .orderByAsc(DynamicTowerDayEntity::getCreateDate)
                                                                 .last("limit 1")
                                                         ;
                                                         DynamicTowerDayEntity entity = baseDao.selectOne(lambdaQueryWrapper);
+                                                        dynamicTowerStaitcEntity.setStationId(stationId);
                                                         if (Objects.isNull(entity)) {
                                                             //落表
                                                             log.info("===================数据正在写入......=======================");

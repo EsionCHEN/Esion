@@ -177,6 +177,7 @@ io\renren\modules\sys\service\impl\SysDictDataServiceImpl.class
 io\renren\modules\sys\dto\SystemDTO.class
 io\renren\modules\sys\dto\PasswordDTO.class
 io\renren\modules\demo\dto\DynamicTowerDayDTO.class
+io\renren\common\utils\XmltoJsonUtil.class
 io\renren\modules\demo\dto\DynamicTowerSecondDTO.class
 io\renren\modules\sys\service\SysDeptService.class
 io\renren\modules\job\service\ScheduleJobLogService.class

@@ -23,18 +23,18 @@ import java.io.IOException;
 @Component("xmlDayTask")
 public class XmlDayTask implements ITask{
 	private Logger logger = LoggerFactory.getLogger(getClass());
-
-	@Value("${url.send}")
-	private String sendUrl;
+//
+//	@Value("${url.send}")
+//	private String sendUrl;
 
 	@Override
 	public void run(String params) throws IOException {
-		logger.info("当前ip{}\n\r=======================每日采集一次========================",sendUrl);
-		XmlDayThread xmlThread = new XmlDayThread(sendUrl);
-//		XmlDayThread xmlThread2 = new XmlDayThread("http://192.168.14.92:30002");
-//		XmlDayThread xmlThread3 = new XmlDayThread("http://192.168.17.92:30002");
+		logger.info("当前ip{}\n\r=======================每日采集一次========================");
+		XmlDayThread xmlThread = new XmlDayThread("http://192.168.33.92");
+		XmlDayThread xmlThread2 = new XmlDayThread("http://192.168.14.92");
+		XmlDayThread xmlThread3 = new XmlDayThread("http://192.168.17.92");
 		xmlThread.run();
-//		xmlThread2.run();
-//		xmlThread3.run();
+		xmlThread2.run();
+		xmlThread3.run();
 	}
 }

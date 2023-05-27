@@ -110,7 +110,9 @@ public class DynamicTowerAlertServiceImpl extends CrudServiceImpl<DynamicTowerAl
                 String name = split[1];
                 if (Objects.nonNull(id)) {
                     String[] splitStation = id.split("-");
-                    dto.setStationId(Integer.parseInt(splitStation[1]));
+//                    dto.setStationId(Integer.parseInt(splitStation[1]));
+                    Integer code = Integer.parseInt(splitStation[1]);
+                    dto.setStationId(code);
                     dto.setStationName(name);
                 }
             }
@@ -174,22 +176,38 @@ public class DynamicTowerAlertServiceImpl extends CrudServiceImpl<DynamicTowerAl
                                                     dto.setCreateDate(new Date());
                                                 }
                                                 DynamicTowerAlertEntity dynamicTowerStaitcEntity = new DynamicTowerAlertEntity();
+
+                                                Integer stationId = dto.getStationId();
+
+                                                if(Integer.parseInt(TowerEnum.TowerType.DOUBLE_P.getTzname()) == stationId){
+                                                    //917->3
+                                                    stationId = 3;
+                                                }
+                                                if(Integer.parseInt(TowerEnum.TowerType.DAN_T.getTzname()) == stationId){
+                                                    //930->16
+                                                    stationId = 16;
+                                                }
+                                                if(Integer.parseInt(TowerEnum.TowerType.LA_T.getTzname())==stationId){
+                                                    //924->10
+                                                    stationId = 10;
+                                                }
                                                 try {
                                                     BeanUtils.copyProperties(dynamicTowerStaitcEntity, dto);
-//                                                    LambdaQueryWrapper<DynamicTowerAlertEntity> lambdaQueryWrapper = new LambdaQueryWrapper();
-//                                                    lambdaQueryWrapper.eq(DynamicTowerAlertEntity::getStationName, dto.getStationName())
-//                                                            .eq(DynamicTowerAlertEntity::getStationId, dto.getStationId())
-//                                                            .eq(DynamicTowerAlertEntity::getTowerName, dto.getTowerName())
-//                                                            .orderByAsc(DynamicTowerAlertEntity::getCreateDate)
-//                                                            .last("limit 1")
-//                                                    ;
-//                                                    DynamicTowerAlertEntity entity = baseDao.selectOne(lambdaQueryWrapper);
-//                                                    if (Objects.isNull(entity)) {
+                                                    LambdaQueryWrapper<DynamicTowerAlertEntity> lambdaQueryWrapper = new LambdaQueryWrapper();
+                                                    lambdaQueryWrapper.eq(DynamicTowerAlertEntity::getStationName, dto.getStationName())
+                                                            .eq(DynamicTowerAlertEntity::getStationId, stationId)
+                                                            .eq(DynamicTowerAlertEntity::getNo, dto.getNo())
+                                                            .orderByAsc(DynamicTowerAlertEntity::getCreateDate)
+                                                            .last("limit 1")
+                                                    ;
+                                                    DynamicTowerAlertEntity entity = baseDao.selectOne(lambdaQueryWrapper);
+                                                    dynamicTowerStaitcEntity.setStationId(stationId);
+                                                    if (Objects.isNull(entity)) {
                                                         //落表
                                                         log.info("===================数据正在写入......=======================");
                                                         baseDao.insert(dynamicTowerStaitcEntity);
                                                         log.info("===================数据写入成功=======================");
-//                                                    }
+                                                    }
                                                     retList.add(dynamicTowerStaitcEntity);
                                                 } catch (IllegalAccessException e) {
                                                     log.error(e.getMessage());

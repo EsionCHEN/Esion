@@ -4,8 +4,8 @@ spring:
       #MySQL
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://localhost:3306/renren_security?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
-      username: renren
-      password: 123456
+      username: root
+      password: root
       initial-size: 10
       max-active: 100
       min-idle: 10
@@ -34,10 +34,8 @@ spring:
             multi-statement-allow: true
 
 
-
-
 url:
   switch: true
-  send: http://192.168.33.92:30002
-#  send: http://192.168.14.92:30002
-#  send: http://192.168.17.92:30002
+  send930: 192.168.33.92
+  send924: 192.168.14.92
+  send917: 192.168.17.92

@@ -24,16 +24,16 @@ import java.io.IOException;
 public class XmlAlertTask implements ITask{
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Value("${url.send}")
-	private String sendUrl;
+//	@Value("${url.send}")
+//	private String sendUrl;
 
 	@Override
 	public void run(String params) throws IOException {
-         logger.info("当前ip{}\n\r=======================每5m采集一次========================",sendUrl);
-		XmlAlertThread xmlThread = new XmlAlertThread(sendUrl);
-//		XmlAlertThread xmlThread2 = new XmlAlertThread("http://192.168.14.92:30002");
-//		XmlAlertThread xmlThread3 = new XmlAlertThread("http://192.168.17.92:30002");
-		xmlThread.run();
+//         logger.info("当前ip{}\n\r=======================每5m采集一次========================",sendUrl);
+//		XmlThread xmlThread = new XmlThread("http://192.168.33.92");
+//		XmlThread xmlThread2 = new XmlThread("http://192.168.14.92");
+//		XmlThread xmlThread3 = new XmlThread("http://192.168.17.92");
+//		xmlThread.run();
 //		xmlThread2.run();
 //		xmlThread3.run();
 	}

@@ -1,30 +1,24 @@
 package io.renren.modules.demo.service.impl;
 
-import cn.hutool.core.date.DateTime;
-import cn.hutool.core.date.DateUnit;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import io.renren.common.service.impl.CrudServiceImpl;
 import io.renren.common.utils.TowerEnum;
 import io.renren.common.utils.XmlToMap;
-import io.renren.common.utils.XmlUtil;
-import cn.hutool.json.JSONUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import io.renren.common.service.impl.CrudServiceImpl;
 import io.renren.modules.demo.dao.DynamicTowerAlertDao;
 import io.renren.modules.demo.dao.DynamicTowerStaitcDao;
-import io.renren.modules.demo.dto.DynamicTowerAlertDTO;
 import io.renren.modules.demo.dto.DynamicTowerSecondDTO;
 import io.renren.modules.demo.dto.DynamicTowerStaitcDTO;
 import io.renren.modules.demo.entity.DynamicTowerAlertEntity;
 import io.renren.modules.demo.entity.DynamicTowerStaitcEntity;
-import io.renren.modules.demo.service.DynamicTowerAlertService;
 import io.renren.modules.demo.service.DynamicTowerDayService;
 import io.renren.modules.demo.service.DynamicTowerSecondService;
 import io.renren.modules.demo.service.DynamicTowerStaitcService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.StringUtils;
-import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,12 +29,10 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -219,7 +211,20 @@ public class DynamicTowerStaitcServiceImpl extends CrudServiceImpl<DynamicTowerS
                 String name = split[1];
                 if(Objects.nonNull(id)){
                     String[] splitStation = id.split("-");
-                    dto.setStationId(Integer.parseInt(splitStation[1]));
+//                    dto.setStationId(Integer.parseInt(splitStation[1]));
+                    Integer code = Integer.parseInt(splitStation[1]);
+                    if(TowerEnum.TowerType.DOUBLE_P.getCode().equals(code)){
+                        //917->3
+                        dto.setStationId(3);
+                    }
+                    if(TowerEnum.TowerType.DAN_T.getCode().equals(code)){
+                        //930->16
+                        dto.setStationId(16);
+                    }
+                    if(TowerEnum.TowerType.LA_T.getCode().equals(code)){
+                        //924->10
+                        dto.setStationId(10);
+                    }
                 }
             }
             List<Map<String, Object>> towers = (List)station.get("Tower");

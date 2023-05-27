@@ -51,7 +51,7 @@ public class TestTask implements ITask{
 		HttpGet httpGet = new HttpGet();
 		if (urlFlag) {
 			//在线数据读取
-			 httpGet = new HttpGet("http://192.168.33.92:30002");
+			 httpGet = new HttpGet("192.168.33.92");
 		}else{
 			//文件读取
 			 httpGet = new HttpGet("http://localhost:8080/admin/demo/dynamictowerstaitc/test");

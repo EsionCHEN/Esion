@@ -1,5 +1,8 @@
 package io.renren.modules.job.task;
 
+import com.alibaba.fastjson.JSONObject;
+import io.renren.common.utils.XmlToMap;
+import io.renren.common.utils.XmltoJsonUtil;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
@@ -16,6 +19,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -36,36 +42,61 @@ public class XmlThread implements Runnable{
     @Override
     public void run() {
         logger.info("{}{}",Thread.currentThread().getName(),this.url);
-        // 创建 HttpClient 对象
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        // 创建 HttpGet 对象
-        HttpGet httpGet = new HttpGet(url);
-        // 发送 GET 请求
-        CloseableHttpResponse response = httpClient.execute(httpGet);
         try {
-            // 处理响应
-            if (response.getStatusLine().getStatusCode() == 200) {
-                HttpEntity entity = response.getEntity();
-                String result = EntityUtils.toString(entity);
-                logger.info(result);
-                logger.debug("定时任务正在执行，数据提取：{}", result);
-                if(StringUtils.isNotBlank(result)){
-                    //实时发送JSON
-                    sendPost(result);
+            Socket socket = new Socket(url, 30002);
+            //得到一个输出流，用于向服务器发送数据
+            OutputStream outputStream = socket.getOutputStream();
+            while (true) {
+                long startTime = System.currentTimeMillis();
+                //刷新缓冲
+                outputStream.flush();
+                //得到一个输入流，用于接收服务器响应的数据
+                InputStream inputStream = socket.getInputStream();
+
+                byte[] bytes = new byte[1]; // 一次读取一个byte
+                String info = "";
+                String s = "";
+
+                while (true) {
+                    if (inputStream.available() > 0) {
+                        inputStream.read(bytes);
+                        String hexStr = XmlToMap.ByteArrayToHexStr(bytes);
+                        s = s + hexStr;
+                        if (System.currentTimeMillis() - startTime > 2*1000) {
+                            break;
+                        }
+                        //已经读完
+                        if (inputStream.available() == 0) {
+                            info = XmlToMap.HexStrToStr(s);
+
+                            System.out.println("数据："+ info);
+                            String yanmd5 = info.substring(0, info.length() - 43);
+                            JSONObject taAll = XmltoJsonUtil.xmlToJson(yanmd5);
+                            if (taAll.size() < 1) {
+                                break;
+                            }
+                            if(StringUtils.isNotBlank(yanmd5) && yanmd5.contains("TowerMonitor")){
+                                System.out.println("开始发送XML解析数据....");
+                                //秒
+                                sendPostSecond(yanmd5);
+                                //报警
+                                sendPostAlert(yanmd5);
+                                //日
+                                sendDayPost(yanmd5);
+                            }
+                            //
+                            break;
+                        }
+                    }
                 }
             }
-            logger.debug("===============定时任务完成===================");
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-        }finally {
-            // 关闭响应和 HttpClient
-            response.close();
-            httpClient.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
 
-    public void sendPost(String json){
+    public void sendPostSecond(String json){
         //进行数据传输
         // 创建 HttpClient 对象
         CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -94,6 +125,70 @@ public class XmlThread implements Runnable{
             httpClient.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void sendDayPost(String json){
+        //进行数据传输
+        // 创建 HttpClient 对象
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        // 创建 HttpPost 对象
+        HttpPost httpPost = new HttpPost("http://localhost:8080/admin/demo/dynamictoweralert/collect");
+        // 设置 POST 请求的数据
+        CloseableHttpResponse response = null;
+        try {
+            StringEntity stringEntity = new StringEntity(json,"utf-8");
+            stringEntity.setContentType("text/plain");
+            httpPost.setEntity(stringEntity);
+            // 发送 POST 请求
+            response = httpClient.execute(httpPost);
+            // 处理响应
+            if (response.getStatusLine().getStatusCode() == 200) {
+                HttpEntity entity = response.getEntity();
+                String result = EntityUtils.toString(entity);
+                System.out.println(result);
+            }
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
+        // 关闭响应和 HttpClient
+        try {
+            response.close();
+            httpClient.close();
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+    public void sendPostAlert(String json){
+        //进行数据传输
+        // 创建 HttpClient 对象
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        // 创建 HttpPost 对象
+        HttpPost httpPost = new HttpPost("http://localhost:8080/admin/demo/dynamictoweralert/collect");
+        // 设置 POST 请求的数据
+        CloseableHttpResponse response = null;
+        try {
+            StringEntity stringEntity = new StringEntity(json,"utf-8");
+            stringEntity.setContentType("text/plain");
+            httpPost.setEntity(stringEntity);
+            // 发送 POST 请求
+            response = httpClient.execute(httpPost);
+            // 处理响应
+            if (response.getStatusLine().getStatusCode() == 200) {
+                HttpEntity entity = response.getEntity();
+                String result = EntityUtils.toString(entity);
+                System.out.println(result);
+            }
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
+        // 关闭响应和 HttpClient
+        try {
+            response.close();
+            httpClient.close();
+        } catch (IOException e) {
+            logger.error(e.getMessage());
         }
     }
 
