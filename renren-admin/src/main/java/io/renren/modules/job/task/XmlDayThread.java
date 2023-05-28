@@ -65,7 +65,7 @@ public class XmlDayThread implements Runnable{
                         //已经读完
                         if (inputStream.available() == 0) {
                             info = XmlToMap.HexStrToStr(s);
-                            System.out.println("数据："+ info);
+                            logger.debug("数据：{}", info);
                             String yanmd5 = info.substring(0, info.length() - 43);
                             JSONObject taAll = XmltoJsonUtil.xmlToJson(yanmd5);
                             if (taAll.size() < 1) {
@@ -107,7 +107,7 @@ public class XmlDayThread implements Runnable{
             if (response.getStatusLine().getStatusCode() == 200) {
                 HttpEntity entity = response.getEntity();
                 String result = EntityUtils.toString(entity);
-                System.out.println(result);
+//                System.out.println(result);
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -69,14 +69,14 @@ public class XmlThread implements Runnable{
                         if (inputStream.available() == 0) {
                             info = XmlToMap.HexStrToStr(s);
 
-                            System.out.println("数据："+ info);
+                            logger.debug("数据：{}", info);
                             String yanmd5 = info.substring(0, info.length() - 43);
                             JSONObject taAll = XmltoJsonUtil.xmlToJson(yanmd5);
                             if (taAll.size() < 1) {
                                 break;
                             }
                             if(StringUtils.isNotBlank(yanmd5) && yanmd5.contains("TowerMonitor")){
-                                System.out.println("开始发送XML解析数据....");
+                                logger.debug("开始发送XML解析数据....");
                                 //秒
                                 sendPostSecond(yanmd5);
                                 //报警
@@ -114,7 +114,7 @@ public class XmlThread implements Runnable{
             if (response.getStatusLine().getStatusCode() == 200) {
                 HttpEntity entity = response.getEntity();
                 String result = EntityUtils.toString(entity);
-                System.out.println(result);
+//                System.out.println(result);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -146,7 +146,7 @@ public class XmlThread implements Runnable{
             if (response.getStatusLine().getStatusCode() == 200) {
                 HttpEntity entity = response.getEntity();
                 String result = EntityUtils.toString(entity);
-                System.out.println(result);
+//                System.out.println(result);
             }
         } catch (IOException e) {
             logger.error(e.getMessage());
@@ -178,7 +178,7 @@ public class XmlThread implements Runnable{
             if (response.getStatusLine().getStatusCode() == 200) {
                 HttpEntity entity = response.getEntity();
                 String result = EntityUtils.toString(entity);
-                System.out.println(result);
+//                System.out.println(result);
             }
         } catch (IOException e) {
             logger.error(e.getMessage());

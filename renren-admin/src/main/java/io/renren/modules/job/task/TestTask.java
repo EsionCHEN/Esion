@@ -64,7 +64,7 @@ public class TestTask implements ITask{
 				HttpEntity entity = response.getEntity();
 				String result = EntityUtils.toString(entity);
 				logger.info(result);
-				logger.debug("定时任务正在执行，数据提取：{}", result);
+				logger.info("定时任务正在执行，数据提取：{}", result);
 				if(StringUtils.isNotBlank(result)){
 					//实时发送JSON
 					sendPost(result);
@@ -99,7 +99,7 @@ public class TestTask implements ITask{
 			if (response.getStatusLine().getStatusCode() == 200) {
 				HttpEntity entity = response.getEntity();
 				String result = EntityUtils.toString(entity);
-				System.out.println(result);
+//				System.out.println(result);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

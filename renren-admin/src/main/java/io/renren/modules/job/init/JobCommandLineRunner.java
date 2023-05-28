@@ -10,9 +10,9 @@ package io.renren.modules.job.init;
 
 import io.renren.modules.job.dao.ScheduleJobDao;
 import io.renren.modules.job.entity.ScheduleJobEntity;
-import io.renren.modules.job.task.XmlDayThread;
 import io.renren.modules.job.task.XmlThread;
 import io.renren.modules.job.utils.ScheduleUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.CronTrigger;
 import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +29,7 @@ import java.util.List;
  * @author Mark sunlightcs@gmail.com
  */
 @Component
+@Slf4j
 public class JobCommandLineRunner implements CommandLineRunner {
     @Autowired
     private Scheduler scheduler;
@@ -52,16 +54,43 @@ public class JobCommandLineRunner implements CommandLineRunner {
             } else {
                 ScheduleUtils.updateScheduleJob(scheduler, scheduleJob);
             }
-            XmlThread xmlThread930 = new XmlThread(sendUrl930);
-            XmlThread xmlThread924 = new XmlThread(sendUrl924);
-            XmlThread xmlThread3917 = new XmlThread(sendUrl917);
+
+
+            List<String> list = new ArrayList<>();
+
+//            list.add(sendUrl930);
+//            list.add(sendUrl924);
+            list.add(sendUrl917);
+
+//            list.add("127.0.0.1");
+
+            for (String url : list) {
+                XmlThread xmlThread = new XmlThread(url);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                log.debug("ip:{}======================开始采集=============================",url);
+                System.out.println("=======================ip:"+url+",线程采集==================");
+//                xmlThread.run();
+            }
+
+//            XmlThread xmlThread930 = new XmlThread(sendUrl930);
+//            XmlThread xmlThread924 = new XmlThread(sendUrl924);
+//            XmlThread xmlThread3917 = new XmlThread(sendUrl917);
 
 //            XmlThread xmlThread = new XmlThread("127.0.0.1");
 //            XmlThread xmlThread2 = new XmlThread("127.0.0.1");
 //            XmlThread xmlThread3 = new XmlThread("127.0.0.1");
-            xmlThread930.run();
-            xmlThread924.run();
-            xmlThread3917.run();
+//            xmlThread924.run();
+//            System.out.println("=======================924线程采集==================");
+//            xmlThread3917.run();
+//            System.out.println("=======================917线程采集==================");
+//            xmlThread930.run();
+//            System.out.println("=======================930线程采集==================");
+
+
         }
     }
 }

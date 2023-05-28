@@ -46,13 +46,13 @@ public class XmlAlertThread implements Runnable{
                 HttpEntity entity = response.getEntity();
                 String result = EntityUtils.toString(entity);
                 logger.info(result);
-                logger.debug("定时任务正在执行，数据提取：{}", result);
+                logger.info("定时任务正在执行，数据提取：{}", result);
                 if(StringUtils.isNotBlank(result)){
                     //实时发送JSON
                     sendPost(result);
                 }
             }
-            logger.debug("===============定时任务完成===================");
+            logger.debug("===============采集完成等待下一指令===================");
         } catch (Exception e) {
             logger.error(e.getMessage());
         }finally {

@@ -136,6 +136,22 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
                                 towoerInfoStr.contains(TowerEnum.TowerType.FECH_T.getName())
                         ) {
                             Map<String, List> second = (Map) it.get("Second");
+                            Map<String, List> comparison = (Map) it.get("Comparison");
+                            if (Objects.nonNull(comparison) && comparison.size() != 0){
+                                List<Map<String, String>> paramList = (List) comparison.get("Param");
+                                if (!paramList.isEmpty()) {
+                                    for (int i = 0; i < paramList.size(); i++) {
+                                        Map<String, String> mapKey = paramList.get(i);
+                                        String s = mapKey.get(3);
+                                        if("H2H".equals(s)){
+                                            //垂直度
+                                            dto.setVerticality(s);
+                                        }
+
+                                    }
+                                }
+                            }
+
                             if (Objects.nonNull(second) && second.size() != 0) {
                                 List<Map<String, String>> paramList = (List) second.get("Param");
                                 if (!paramList.isEmpty()) {
@@ -175,10 +191,10 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
                                                     } catch (Exception e) {
                                                         dto.setCreateDate(new Date());
                                                     }
-                                                    if (scondType.contains(TowerEnum.TowerScondType.CZD.getName())) {
-                                                        //垂直度
-                                                        dto.setVerticality(avg);
-                                                    }
+//                                                    if (scondType.contains(TowerEnum.TowerScondType.CZD.getName())) {
+//                                                        //垂直度
+//                                                        dto.setVerticality(avg);
+//                                                    }
                                                     if (scondType.contains(TowerEnum.TowerScondType.YL.getName())) {
                                                         //应力
                                                         dto.setStress(avg);
