@@ -15,8 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
@@ -136,21 +134,6 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
                                 towoerInfoStr.contains(TowerEnum.TowerType.FECH_T.getName())
                         ) {
                             Map<String, List> second = (Map) it.get("Second");
-                            Map<String, List> comparison = (Map) it.get("Comparison");
-                            if (Objects.nonNull(comparison) && comparison.size() != 0){
-                                List<Map<String, String>> paramList = (List) comparison.get("Param");
-                                if (!paramList.isEmpty()) {
-                                    for (int i = 0; i < paramList.size(); i++) {
-                                        Map<String, String> mapKey = paramList.get(i);
-                                        String s = mapKey.get(3);
-                                        if("H2H".equals(s)){
-                                            //垂直度
-                                            dto.setVerticality(s);
-                                        }
-
-                                    }
-                                }
-                            }
 
                             if (Objects.nonNull(second) && second.size() != 0) {
                                 List<Map<String, String>> paramList = (List) second.get("Param");
@@ -191,10 +174,6 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
                                                     } catch (Exception e) {
                                                         dto.setCreateDate(new Date());
                                                     }
-//                                                    if (scondType.contains(TowerEnum.TowerScondType.CZD.getName())) {
-//                                                        //垂直度
-//                                                        dto.setVerticality(avg);
-//                                                    }
                                                     if (scondType.contains(TowerEnum.TowerScondType.YL.getName())) {
                                                         //应力
                                                         dto.setStress(avg);
@@ -281,6 +260,7 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
                                                         stationId = 10;
                                                     }
 
+
                                                             BeanUtils.copyProperties(dynamicTowerStaitcEntity, dto);
                                                             LambdaQueryWrapper<DynamicTowerSecondEntity> lambdaQueryWrapper = new LambdaQueryWrapper();
                                                             lambdaQueryWrapper.eq(DynamicTowerSecondEntity::getStationName, dto.getStationName())
@@ -313,6 +293,48 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
                                                 }
                                             }
                                         }
+                                    }
+                                }
+                            }
+
+                            Map<String, List> comparison = (Map) it.get("Comparison");
+                            String vert = null;
+                            if (Objects.nonNull(comparison) && comparison.size() != 0){
+                                List<Map<String, String>> paramList = (List) comparison.get("Param");
+                                if (!paramList.isEmpty()) {
+                                    for (int i = 0; i < paramList.size(); i++) {
+                                        Map<String, String> mapKey = paramList.get(i);
+                                        String s = mapKey.get("0");
+                                        if(StringUtils.isNotBlank(s)){
+                                            String[] split = s.split("\\|");
+                                            if("H2H".equals(split[3])){
+                                                //垂直度
+                                                vert = split[8];
+                                                if(!"0.0".equals(vert)){
+                                                    Integer stationId = dto.getStationId();
+
+                                                    if(Integer.parseInt(TowerEnum.TowerType.DOUBLE_P.getTzname()) == stationId){
+                                                        //917->3
+                                                        stationId = 3;
+                                                    }
+                                                    if(Integer.parseInt(TowerEnum.TowerType.DAN_T.getTzname()) == stationId){
+                                                        //930->16
+                                                        stationId = 16;
+                                                    }
+                                                    if(Integer.parseInt(TowerEnum.TowerType.LA_T.getTzname())==stationId){
+                                                        //924->10
+                                                        stationId = 10;
+                                                    }
+                                                    LambdaUpdateWrapper<DynamicTowerSecondEntity> upp = new LambdaUpdateWrapper<>();
+                                                    upp.set(DynamicTowerSecondEntity::getVerticality,vert);
+                                                    upp.eq(DynamicTowerSecondEntity::getStationId,stationId);
+                                                    upp.eq(DynamicTowerSecondEntity::getTowerName,dto.getTowerName());
+                                                    baseDao.update(null,upp);
+                                                }
+                                            }
+
+                                        }
+
                                     }
                                 }
                             }

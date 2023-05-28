@@ -60,9 +60,9 @@ public class JobCommandLineRunner implements CommandLineRunner {
 
 //            list.add(sendUrl930);
 //            list.add(sendUrl924);
-            list.add(sendUrl917);
+//            list.add(sendUrl917);
 
-//            list.add("127.0.0.1");
+            list.add("127.0.0.1");
 
             for (String url : list) {
                 XmlThread xmlThread = new XmlThread(url);
