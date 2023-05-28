@@ -11,6 +11,7 @@ import io.renren.modules.demo.dao.DynamicTowerSecondDao;
 import io.renren.modules.demo.dto.DynamicTowerSecondDTO;
 import io.renren.modules.demo.entity.DynamicTowerSecondEntity;
 import io.renren.modules.demo.service.DynamicTowerSecondService;
+import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.compress.utils.Lists;
@@ -49,7 +50,7 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
         return wrapper;
     }
 
-    public String hello(){
+    public String hello() {
         return "===================================";
     }
 
@@ -90,7 +91,8 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
     }
 
 
-    @Transactional(rollbackFor=Exception.class)
+    @Transactional(rollbackFor = Exception.class)
+    @Synchronized
     public List<DynamicTowerSecondEntity> dataParseAndSax(String json) {
         try {
             List<DynamicTowerSecondEntity> retList = Lists.newArrayList();
@@ -125,18 +127,28 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
                     if (Objects.nonNull(towerInfo) && towerInfo.size() != 0) {
                         String towoerInfoStr = towerInfo.get("0");
                         dto.setTowerName(towoerInfoStr.split("\\|")[1]);
-                        if (((towoerInfoStr.contains(TowerEnum.TowerType.DAN_T.getName()) || towoerInfoStr.contains(TowerEnum.TowerType.DAN_T.getCname())) && String.valueOf(dto.getStationId()).equals(TowerEnum.TowerType.DAN_T.getTzname())) ||
-                                ((towoerInfoStr.contains(TowerEnum.TowerType.DOUBLE_T.getCname()) || towoerInfoStr.contains(TowerEnum.TowerType.DOUBLE_T.getCname())) && String.valueOf(dto.getStationId()).equals(TowerEnum.TowerType.DOUBLE_T.getTzname())) ||
-                                (towoerInfoStr.contains(TowerEnum.TowerType.SIG_T.getName()) && String.valueOf(dto.getStationId()).equals(TowerEnum.TowerType.SIG_T.getTzname())) ||
-                                (towoerInfoStr.contains(TowerEnum.TowerType.LA_T.getName()) && String.valueOf(dto.getStationId()).equals(TowerEnum.TowerType.LA_T.getTzname())) ||
-                                (towoerInfoStr.contains(TowerEnum.TowerType.DAN_P.getName()) && String.valueOf(dto.getStationId()).equals(TowerEnum.TowerType.DAN_P.getTzname())) ||
-                                (towoerInfoStr.contains(TowerEnum.TowerType.DOUBLE_P.getName()) && String.valueOf(dto.getStationId()).equals(TowerEnum.TowerType.DOUBLE_P.getTzname())) ||
-                                towoerInfoStr.contains(TowerEnum.TowerType.FECH_T.getName())
+                        if (
+                                (towoerInfoStr.contains(TowerEnum.TowerType.DAN_T.getCname()) && String.valueOf(dto.getStationId()).equals(TowerEnum.TowerType.DAN_T.getTzname())) ||
+                                        (towoerInfoStr.contains(TowerEnum.TowerType.DOUBLE_T.getCname()) && String.valueOf(dto.getStationId()).equals(TowerEnum.TowerType.DOUBLE_T.getTzname())) ||
+//                                ((towoerInfoStr.contains(TowerEnum.TowerType.DAN_T.getName()) || towoerInfoStr.contains(TowerEnum.TowerType.DAN_T.getCname())) && String.valueOf(dto.getStationId()).equals(TowerEnum.TowerType.DAN_T.getTzname())) ||
+//                                ((towoerInfoStr.contains(TowerEnum.TowerType.DOUBLE_T.getCname()) || towoerInfoStr.contains(TowerEnum.TowerType.DOUBLE_T.getCname())) && String.valueOf(dto.getStationId()).equals(TowerEnum.TowerType.DOUBLE_T.getTzname())) ||
+                                        (towoerInfoStr.contains(TowerEnum.TowerType.SIG_T.getName()) && String.valueOf(dto.getStationId()).equals(TowerEnum.TowerType.SIG_T.getTzname())) ||
+                                        (towoerInfoStr.contains(TowerEnum.TowerType.LA_T.getName()) && String.valueOf(dto.getStationId()).equals(TowerEnum.TowerType.LA_T.getTzname())) ||
+                                        (towoerInfoStr.contains(TowerEnum.TowerType.DAN_P.getName()) && String.valueOf(dto.getStationId()).equals(TowerEnum.TowerType.DAN_P.getTzname())) ||
+                                        (towoerInfoStr.contains(TowerEnum.TowerType.DOUBLE_P.getName()) && String.valueOf(dto.getStationId()).equals(TowerEnum.TowerType.DOUBLE_P.getTzname())) ||
+                                        towoerInfoStr.contains(TowerEnum.TowerType.FECH_T.getName())
                         ) {
                             Map<String, List> second = (Map) it.get("Second");
-
+                            try {
+                                //阻塞一秒
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                             if (Objects.nonNull(second) && second.size() != 0) {
+
                                 List<Map<String, String>> paramList = (List) second.get("Param");
+
                                 if (!paramList.isEmpty()) {
                                     //开始解析
 
@@ -174,6 +186,10 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
                                                     } catch (Exception e) {
                                                         dto.setCreateDate(new Date());
                                                     }
+                                                    if (scondType.contains(TowerEnum.TowerScondType.CZD.getName())) {
+                                                        //塔顶垂直度
+                                                        dto.setVerticality(avg);
+                                                    }
                                                     if (scondType.contains(TowerEnum.TowerScondType.YL.getName())) {
                                                         //应力
                                                         dto.setStress(avg);
@@ -195,20 +211,20 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
                                                     DynamicTowerSecondEntity dynamicTowerStaitcEntity = new DynamicTowerSecondEntity();
 
 
-                                                    if(Objects.nonNull(dto.getWindSpeed())){
+                                                    if (Objects.nonNull(dto.getWindSpeed())) {
                                                         //多塔
                                                         try {
                                                             Integer stationId = dto.getStationId();
 
-                                                            if(Integer.parseInt(TowerEnum.TowerType.DOUBLE_P.getTzname()) == stationId){
+                                                            if (Integer.parseInt(TowerEnum.TowerType.DOUBLE_P.getTzname()) == stationId) {
                                                                 //917->3
                                                                 stationId = 3;
                                                             }
-                                                            if(Integer.parseInt(TowerEnum.TowerType.DAN_T.getTzname()) == stationId){
+                                                            if (Integer.parseInt(TowerEnum.TowerType.DAN_T.getTzname()) == stationId) {
                                                                 //930->16
                                                                 stationId = 16;
                                                             }
-                                                            if(Integer.parseInt(TowerEnum.TowerType.LA_T.getTzname())==stationId){
+                                                            if (Integer.parseInt(TowerEnum.TowerType.LA_T.getTzname()) == stationId) {
                                                                 //924->10
                                                                 stationId = 10;
                                                             }
@@ -229,11 +245,11 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
                                                             } else {
                                                                 //多塔更新
                                                                 LambdaUpdateWrapper<DynamicTowerSecondEntity> up = new LambdaUpdateWrapper<>();
-                                                                up.set(DynamicTowerSecondEntity::getWindSpeed,dto.getWindSpeed());
+                                                                up.set(DynamicTowerSecondEntity::getWindSpeed, dto.getWindSpeed());
                                                                 up.eq(DynamicTowerSecondEntity::getStationName, dto.getStationName())
                                                                         .eq(DynamicTowerSecondEntity::getStationId, stationId);
                                                                 log.info("===================数据正在更新......=======================");
-                                                                baseDao.update(null,up);
+                                                                baseDao.update(null, up);
                                                                 log.info("===================数据更新成功=======================");
                                                             }
                                                         } catch (IllegalAccessException e) {
@@ -241,24 +257,24 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
                                                         } catch (InvocationTargetException e) {
                                                             log.error(e.getMessage());
                                                         }
-                                                    }else{
+                                                    } else {
                                                         //单塔
                                                         try {
 
-                                                    Integer stationId = dto.getStationId();
+                                                            Integer stationId = dto.getStationId();
 
-                                                    if(Integer.parseInt(TowerEnum.TowerType.DOUBLE_P.getTzname()) == stationId){
-                                                        //917->3
-                                                        stationId = 3;
-                                                    }
-                                                    if(Integer.parseInt(TowerEnum.TowerType.DAN_T.getTzname()) == stationId){
-                                                        //930->16
-                                                        stationId = 16;
-                                                    }
-                                                    if(Integer.parseInt(TowerEnum.TowerType.LA_T.getTzname())==stationId){
-                                                        //924->10
-                                                        stationId = 10;
-                                                    }
+                                                            if (Integer.parseInt(TowerEnum.TowerType.DOUBLE_P.getTzname()) == stationId) {
+                                                                //917->3
+                                                                stationId = 3;
+                                                            }
+                                                            if (Integer.parseInt(TowerEnum.TowerType.DAN_T.getTzname()) == stationId) {
+                                                                //930->16
+                                                                stationId = 16;
+                                                            }
+                                                            if (Integer.parseInt(TowerEnum.TowerType.LA_T.getTzname()) == stationId) {
+                                                                //924->10
+                                                                stationId = 10;
+                                                            }
 
 
                                                             BeanUtils.copyProperties(dynamicTowerStaitcEntity, dto);
@@ -297,41 +313,49 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
                                 }
                             }
 
-                            Map<String, List> comparison = (Map) it.get("Comparison");
+                            Map<String, List> comparison = (Map) it.get("Minute");
                             String vert = null;
-                            if (Objects.nonNull(comparison) && comparison.size() != 0){
+                            if (Objects.nonNull(comparison) && comparison.size() != 0) {
                                 List<Map<String, String>> paramList = (List) comparison.get("Param");
                                 if (!paramList.isEmpty()) {
                                     for (int i = 0; i < paramList.size(); i++) {
                                         Map<String, String> mapKey = paramList.get(i);
                                         String s = mapKey.get("0");
-                                        if(StringUtils.isNotBlank(s)){
+                                        if (StringUtils.isNotBlank(s)) {
                                             String[] split = s.split("\\|");
-                                            if("H2H".equals(split[3])){
-                                                //垂直度
-                                                vert = split[8];
-                                                if(!"0.0".equals(vert)){
-                                                    Integer stationId = dto.getStationId();
+//                                            if("H2H".equals(split[3])){
+                                            //塔顶垂直度
+                                            vert = split[8];
+                                            if (!"0.0".equals(vert)) {
+                                                Integer stationId = dto.getStationId();
 
-                                                    if(Integer.parseInt(TowerEnum.TowerType.DOUBLE_P.getTzname()) == stationId){
-                                                        //917->3
-                                                        stationId = 3;
+                                                if (Integer.parseInt(TowerEnum.TowerType.DOUBLE_P.getTzname()) == stationId) {
+                                                    //917->3
+                                                    stationId = 3;
+                                                }
+                                                if (Integer.parseInt(TowerEnum.TowerType.DAN_T.getTzname()) == stationId) {
+                                                    //930->16
+                                                    stationId = 16;
+                                                }
+                                                if (Integer.parseInt(TowerEnum.TowerType.LA_T.getTzname()) == stationId) {
+                                                    //924->10
+                                                    stationId = 10;
+                                                }
+                                                LambdaQueryWrapper<DynamicTowerSecondEntity> upp = new LambdaQueryWrapper<>();
+//                                                upp.set(DynamicTowerSecondEntity::getVerticality, vert);
+                                                //查询是否已经存在此塔
+                                                upp.eq(DynamicTowerSecondEntity::getStationId, stationId);
+                                                upp.eq(DynamicTowerSecondEntity::getTowerName, dto.getTowerName()).last("limit 1");
+                                                DynamicTowerSecondEntity dynamicTowerSecondEntity = baseDao.selectOne(upp);
+                                                if (Objects.nonNull(dynamicTowerSecondEntity)) {
+                                                    if(StringUtils.isNotBlank(vert) && !"0.0".equals(vert)){
+                                                        dynamicTowerSecondEntity.setVerticality(vert);
+                                                        baseDao.updateById(dynamicTowerSecondEntity);
                                                     }
-                                                    if(Integer.parseInt(TowerEnum.TowerType.DAN_T.getTzname()) == stationId){
-                                                        //930->16
-                                                        stationId = 16;
-                                                    }
-                                                    if(Integer.parseInt(TowerEnum.TowerType.LA_T.getTzname())==stationId){
-                                                        //924->10
-                                                        stationId = 10;
-                                                    }
-                                                    LambdaUpdateWrapper<DynamicTowerSecondEntity> upp = new LambdaUpdateWrapper<>();
-                                                    upp.set(DynamicTowerSecondEntity::getVerticality,vert);
-                                                    upp.eq(DynamicTowerSecondEntity::getStationId,stationId);
-                                                    upp.eq(DynamicTowerSecondEntity::getTowerName,dto.getTowerName());
-                                                    baseDao.update(null,upp);
+
                                                 }
                                             }
+//                                            }
 
                                         }
 
@@ -359,30 +383,30 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
     }
 
 
-    public void saveTwoTower(DynamicTowerSecondDTO dto){
+    public void saveTwoTower(DynamicTowerSecondDTO dto) {
         //自定义双塔
 //        List<DynamicTowerSecondEntity> addList = Lists.newArrayList();
         try {
             //取多塔数据赋予单塔,双塔
             DynamicTowerSecondEntity dp = new DynamicTowerSecondEntity();
             DynamicTowerSecondEntity sp = new DynamicTowerSecondEntity();
-            BeanUtils.copyProperties(dp,dto);
+            BeanUtils.copyProperties(dp, dto);
             BeanUtils.copyProperties(sp, dto);
-            if(TowerEnum.TowerType.DAN_T.getTzname().equals(String.valueOf(dto.getStationId()))){
+            if (TowerEnum.TowerType.DAN_T.getTzname().equals(String.valueOf(dto.getStationId()))) {
                 //930
                 dp.setStationId(16);
                 sp.setStationId(16);
                 dp.setTowerName(TowerEnum.TowerType.DAN_T.getName());
                 sp.setTowerName(TowerEnum.TowerType.DOUBLE_T.getName());
             }
-            if(TowerEnum.TowerType.SIG_T.getTzname().equals(String.valueOf(dto.getStationId()))){
+            if (TowerEnum.TowerType.SIG_T.getTzname().equals(String.valueOf(dto.getStationId()))) {
                 //924
                 dp.setStationId(10);
                 sp.setStationId(10);
                 dp.setTowerName(TowerEnum.TowerType.SIG_T.getName());
                 sp.setTowerName(TowerEnum.TowerType.LA_T.getName());
             }
-            if(TowerEnum.TowerType.DAN_P.getTzname().equals(String.valueOf(dto.getStationId()))){
+            if (TowerEnum.TowerType.DAN_P.getTzname().equals(String.valueOf(dto.getStationId()))) {
                 //917
                 dp.setStationId(3);
                 sp.setStationId(3);

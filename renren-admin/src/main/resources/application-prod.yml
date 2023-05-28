@@ -3,9 +3,9 @@ spring:
     druid:
       #MySQL
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://43.143.168.45:3306/cfxl?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
-      username: cfxl
-      password: cfxl8888@
+      url: jdbc:mysql://192.168.100.171:3306/cfxl?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
+      username: root
+      password: cfxl
       initial-size: 10
       max-active: 100
       min-idle: 10

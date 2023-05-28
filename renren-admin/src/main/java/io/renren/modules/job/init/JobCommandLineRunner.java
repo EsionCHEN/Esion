@@ -58,22 +58,22 @@ public class JobCommandLineRunner implements CommandLineRunner {
 
             List<String> list = new ArrayList<>();
 
-//            list.add(sendUrl930);
-//            list.add(sendUrl924);
-//            list.add(sendUrl917);
+            list.add(sendUrl930);
+            list.add(sendUrl924);
+            list.add(sendUrl917);
 
-            list.add("127.0.0.1");
+//            list.add("127.0.0.1");
 
-            for (String url : list) {
-                XmlThread xmlThread = new XmlThread(url);
+            Thread thread = null;
+            for (int i = 0; i < list.size(); i++) {
+                thread = new XmlThread(list.get(i));
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+//                    e.printStackTrace();
                 }
-                log.debug("ip:{}======================开始采集=============================",url);
-                System.out.println("=======================ip:"+url+",线程采集==================");
-//                xmlThread.run();
+                System.out.println("第"+i+"个线程名称为：" + Thread.currentThread() + "开始执行...");
+                thread.start();
             }
 
 //            XmlThread xmlThread930 = new XmlThread(sendUrl930);

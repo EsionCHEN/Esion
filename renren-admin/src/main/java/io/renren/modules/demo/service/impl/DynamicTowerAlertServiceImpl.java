@@ -1,9 +1,13 @@
 package io.renren.modules.demo.service.impl;
 
 import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.qiniu.util.Json;
 import io.renren.common.service.impl.CrudServiceImpl;
+import io.renren.common.utils.JsonUtils;
 import io.renren.common.utils.TowerEnum;
 import io.renren.common.utils.XmlToMap;
 import io.renren.modules.demo.dao.DynamicTowerAlertDao;
@@ -133,7 +137,16 @@ public class DynamicTowerAlertServiceImpl extends CrudServiceImpl<DynamicTowerAl
                         ) {
                             Map<String, List> alert = (Map) it.get("Alert");
                             if (Objects.nonNull(alert) && alert.size() != 0) {
-                                List<Map<String, String>> messageList = (List) alert.get("Message");
+
+                                List<Map<String,String>> messageList = new ArrayList<>();
+                                try {
+                                    messageList = (List) alert.get("Message");
+                                } catch (Exception e) {
+                                    Map<String,String> message1 = (Map)alert.get("Message");
+                                    messageList.add(message1);
+                                }
+
+//                                List<Map<String, String>> messageList = (List) alert.get("Message");
                                 if (!messageList.isEmpty()) {
                                     //开始解析
 

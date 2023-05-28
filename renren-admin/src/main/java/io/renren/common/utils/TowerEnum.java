@@ -36,9 +36,9 @@ public interface TowerEnum {
     @Getter
     @AllArgsConstructor
     enum TowerScondType{
-        CZD(1,"垂直度"),
-        YL(2,"应力"),
-        LL(3,"拉力"),
+        CZD(1,"塔顶垂直度"),
+        YL(2,"最大应力"),
+        LL(3,"最大拉力"),
         FS(4,"风速"),
         FXZ(5,"风险值"),
         ;

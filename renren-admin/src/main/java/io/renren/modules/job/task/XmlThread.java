@@ -31,7 +31,7 @@ import java.util.concurrent.Executors;
  @Date: 2023/5/22 9:37
  */
 @Component
-public class XmlThread implements Runnable{
+public class XmlThread extends Thread{
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -91,7 +91,7 @@ public class XmlThread implements Runnable{
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 
@@ -117,14 +117,14 @@ public class XmlThread implements Runnable{
 //                System.out.println(result);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         // 关闭响应和 HttpClient
         try {
             response.close();
             httpClient.close();
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 
@@ -149,19 +149,20 @@ public class XmlThread implements Runnable{
 //                System.out.println(result);
             }
         } catch (IOException e) {
-            logger.error(e.getMessage());
+//            logger.error(e.getMessage());
         }
         // 关闭响应和 HttpClient
         try {
             response.close();
             httpClient.close();
         } catch (IOException e) {
-            logger.error(e.getMessage());
+//            logger.error(e.getMessage());
         }
     }
 
     public void sendPostAlert(String json){
         //进行数据传输
+        System.out.println("==================报警数据采集=====================");
         // 创建 HttpClient 对象
         CloseableHttpClient httpClient = HttpClients.createDefault();
         // 创建 HttpPost 对象
@@ -181,14 +182,14 @@ public class XmlThread implements Runnable{
 //                System.out.println(result);
             }
         } catch (IOException e) {
-            logger.error(e.getMessage());
+//            logger.error(e.getMessage());
         }
         // 关闭响应和 HttpClient
         try {
             response.close();
             httpClient.close();
         } catch (IOException e) {
-            logger.error(e.getMessage());
+//            logger.error(e.getMessage());
         }
     }
 
