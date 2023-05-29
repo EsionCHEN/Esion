@@ -106,8 +106,9 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
             Map<String, Object> station = (Map) map.get("Station");
             //台站信息
             Map<String, String> stationInfo = (Map) station.get("StationInfo");
+            String stationInfoStr = null;
             if (Objects.nonNull(stationInfo) && stationInfo.size() != 0) {
-                String stationInfoStr = stationInfo.get("0");
+                 stationInfoStr = stationInfo.get("0");
                 String[] split = stationInfoStr.split("\\|");
                 //台站id
                 String id = split[0];
@@ -186,10 +187,10 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
                                                     } catch (Exception e) {
                                                         dto.setCreateDate(new Date());
                                                     }
-                                                    if (scondType.contains(TowerEnum.TowerScondType.CZD.getName())) {
-                                                        //塔顶垂直度
-                                                        dto.setVerticality(avg);
-                                                    }
+//                                                    if (scondType.contains(TowerEnum.TowerScondType.CZD.getName())) {
+//                                                        //塔顶垂直度
+//                                                        dto.setVerticality(avg);
+//                                                    }
                                                     if (scondType.contains(TowerEnum.TowerScondType.YL.getName())) {
                                                         //应力
                                                         dto.setStress(avg);
@@ -321,7 +322,10 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
                                     for (int i = 0; i < paramList.size(); i++) {
                                         Map<String, String> mapKey = paramList.get(i);
                                         String s = mapKey.get("0");
-                                        if (StringUtils.isNotBlank(s)) {
+                                        if(s.contains("塔顶垂直度")){
+                                            System.out.println(s);
+                                        }
+                                        if (StringUtils.isNotBlank(s) && s.contains("塔顶垂直度")) {
                                             String[] split = s.split("\\|");
 //                                            if("H2H".equals(split[3])){
                                             //塔顶垂直度
@@ -352,11 +356,15 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
                                                         dynamicTowerSecondEntity.setVerticality(vert);
                                                         baseDao.updateById(dynamicTowerSecondEntity);
                                                     }
-
+                                                }else{
+                                                    DynamicTowerSecondEntity newEntity = new DynamicTowerSecondEntity();
+                                                    BeanUtils.copyProperties(newEntity,dto);
+                                                    newEntity.setStationId(stationId);
+                                                    newEntity.setVerticality(vert);
+                                                    baseDao.insert(newEntity);
                                                 }
                                             }
 //                                            }
-
                                         }
 
                                     }
@@ -366,10 +374,9 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
                     }
                 } catch (Exception e) {
                     //dom子节点无内容默认跳过
-                    log.error(e.getMessage());
                 }
             });
-            System.out.println("=================当前数据处理完成...等待服务下个指令===================");
+            System.out.println("================="+stationInfoStr+"数据解析完毕,等待下次指令===================");
             return retList;
 
         } catch (SAXException e) {
@@ -378,6 +385,8 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
             log.error(e.getMessage());
         } catch (ParserConfigurationException e) {
             log.error(e.getMessage());
+        }finally {
+            System.out.println("检测是否存在可释放资源....");
         }
         return null;
     }

@@ -42,16 +42,17 @@ public class XmlThread extends Thread{
     @Override
     public void run() {
         logger.info("{}{}",Thread.currentThread().getName(),this.url);
+        Socket socket = new Socket(url, 30001);
+        //得到一个输出流，用于向服务器发送数据
+        OutputStream outputStream = socket.getOutputStream();
+        InputStream inputStream = null;
         try {
-            Socket socket = new Socket(url, 30002);
-            //得到一个输出流，用于向服务器发送数据
-            OutputStream outputStream = socket.getOutputStream();
             while (true) {
                 long startTime = System.currentTimeMillis();
                 //刷新缓冲
                 outputStream.flush();
                 //得到一个输入流，用于接收服务器响应的数据
-                InputStream inputStream = socket.getInputStream();
+                inputStream = socket.getInputStream();
 
                 byte[] bytes = new byte[1]; // 一次读取一个byte
                 String info = "";
@@ -63,6 +64,7 @@ public class XmlThread extends Thread{
                         String hexStr = XmlToMap.ByteArrayToHexStr(bytes);
                         s = s + hexStr;
                         if (System.currentTimeMillis() - startTime > 2*1000) {
+                            //检测心跳
                             break;
                         }
                         //已经读完
@@ -92,6 +94,21 @@ public class XmlThread extends Thread{
             }
         } catch (IOException e) {
 //            e.printStackTrace();
+        }finally {
+            System.out.println(">>>线程"+this.getId()+"的连接释放\n");
+            try{
+                if(outputStream != null){
+                    outputStream.close();
+                }
+                if(inputStream != null){
+                    inputStream.close();
+                }
+                if(socket != null){
+                    socket.close();
+                }
+            }catch (Exception e){
+
+            }
         }
     }
 
@@ -121,6 +138,7 @@ public class XmlThread extends Thread{
         }
         // 关闭响应和 HttpClient
         try {
+            System.out.println("正在释放秒级数据解析服务的资源...");
             response.close();
             httpClient.close();
         } catch (IOException e) {
@@ -153,6 +171,7 @@ public class XmlThread extends Thread{
         }
         // 关闭响应和 HttpClient
         try {
+            System.out.println("正在释放天级数据解析服务的资源...");
             response.close();
             httpClient.close();
         } catch (IOException e) {
@@ -186,6 +205,7 @@ public class XmlThread extends Thread{
         }
         // 关闭响应和 HttpClient
         try {
+            System.out.println("正在释放报警数据解析服务的资源...");
             response.close();
             httpClient.close();
         } catch (IOException e) {
