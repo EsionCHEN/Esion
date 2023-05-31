@@ -187,10 +187,10 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
                                                     } catch (Exception e) {
                                                         dto.setCreateDate(new Date());
                                                     }
-//                                                    if (scondType.contains(TowerEnum.TowerScondType.CZD.getName())) {
-//                                                        //塔顶垂直度
-//                                                        dto.setVerticality(avg);
-//                                                    }
+                                                    if (scondType.contains(TowerEnum.TowerScondType.CZD.getName())) {
+                                                        //塔顶垂直度
+                                                        dto.setVerticality(avg);
+                                                    }
                                                     if (scondType.contains(TowerEnum.TowerScondType.YL.getName())) {
                                                         //应力
                                                         dto.setStress(avg);
@@ -317,7 +317,13 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
                             Map<String, List> comparison = (Map) it.get("Minute");
                             String vert = null;
                             if (Objects.nonNull(comparison) && comparison.size() != 0) {
-                                List<Map<String, String>> paramList = (List) comparison.get("Param");
+                                List<Map<String, String>> paramList = new ArrayList<>();
+                                try {
+                                    paramList = (List) comparison.get("Param");
+                                } catch (Exception e) {
+                                    Map<String,String> paramMap = (Map)comparison.get("Param");
+                                    paramList.add(paramMap);
+                                }
                                 if (!paramList.isEmpty()) {
                                     for (int i = 0; i < paramList.size(); i++) {
                                         Map<String, String> mapKey = paramList.get(i);
@@ -422,6 +428,8 @@ public class DynamicTowerSecondServiceImpl extends CrudServiceImpl<DynamicTowerS
                 dp.setTowerName(TowerEnum.TowerType.DAN_P.getName());
                 sp.setTowerName(TowerEnum.TowerType.DOUBLE_P.getName());
             }
+            sp.setVerticality("0.0");
+            dp.setVerticality("0.0");
             baseDao.insert(dp);
             baseDao.insert(sp);
         } catch (IllegalAccessException e) {

@@ -12,8 +12,18 @@ import com.github.xiaoymin.knife4j.spring.extension.OpenApiExtensionResolver;
 import io.renren.common.constant.Constant;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.actuate.autoconfigure.endpoint.web.CorsEndpointProperties;
+import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
+import org.springframework.boot.actuate.autoconfigure.web.server.ConditionalOnManagementPort;
+import org.springframework.boot.actuate.autoconfigure.web.server.ManagementPortType;
+import org.springframework.boot.actuate.endpoint.ExposableEndpoint;
+import org.springframework.boot.actuate.endpoint.web.*;
+import org.springframework.boot.actuate.endpoint.web.annotation.ControllerEndpointsSupplier;
+import org.springframework.boot.actuate.endpoint.web.annotation.ServletEndpointsSupplier;
+import org.springframework.boot.actuate.endpoint.web.servlet.WebMvcEndpointHandlerMapping;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -23,6 +33,8 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
@@ -35,7 +47,7 @@ import static com.google.common.collect.Lists.newArrayList;
 @Configuration
 @EnableSwagger2WebMvc
 @AllArgsConstructor
-public class SwaggerConfig{
+public class SwaggerConfig {
     private final OpenApiExtensionResolver openApiExtensionResolver;
 
     @Bean
@@ -56,9 +68,9 @@ public class SwaggerConfig{
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-            .title("人人开源")
-            .description("renren-admin文档")
-            .termsOfServiceUrl("https://www.renren.io")
+            .title("XML采集")
+            .description("XML采集文档")
+            .termsOfServiceUrl("https://www.baidu.com")
             .version("5.x")
             .build();
     }
@@ -67,5 +79,26 @@ public class SwaggerConfig{
         return newArrayList(
             new ApiKey(Constant.TOKEN_HEADER, Constant.TOKEN_HEADER, "header")
         );
+    }
+
+
+    /**
+     @Description: 解决高版本升级
+     @Author: ESION.CT
+     @Date: 2023/5/31 10:24
+     */
+    @Bean
+    @ConditionalOnManagementPort(ManagementPortType.SAME)
+    public WebMvcEndpointHandlerMapping webEndpointServletHandlerMapping(WebEndpointsSupplier webEndpointsSupplier, ServletEndpointsSupplier servletEndpointsSupplier, ControllerEndpointsSupplier controllerEndpointsSupplier, EndpointMediaTypes endpointMediaTypes, CorsEndpointProperties corsProperties, WebEndpointProperties webEndpointProperties, Environment environment) {
+        List<ExposableEndpoint<?>> allEndpoints = new ArrayList<>();
+        Collection<ExposableWebEndpoint> webEndpoints = webEndpointsSupplier.getEndpoints();
+        allEndpoints.addAll(webEndpoints);
+        allEndpoints.addAll(servletEndpointsSupplier.getEndpoints());
+        allEndpoints.addAll(controllerEndpointsSupplier.getEndpoints());
+        String basePath = webEndpointProperties.getBasePath();
+        EndpointMapping endpointMapping = new EndpointMapping(basePath);
+        boolean shouldRegisterLinksMapping = webEndpointProperties.getDiscovery().isEnabled() &&
+                (org.springframework.util.StringUtils.hasText(basePath) || ManagementPortType.get(environment).equals(ManagementPortType.DIFFERENT));
+        return new WebMvcEndpointHandlerMapping(endpointMapping, webEndpoints, endpointMediaTypes, corsProperties.toCorsConfiguration(), new EndpointLinksResolver(allEndpoints, basePath), shouldRegisterLinksMapping, null);
     }
 }

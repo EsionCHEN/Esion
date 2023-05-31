@@ -3,9 +3,9 @@ spring:
     druid:
       #MySQL
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://192.168.100.171:3306/cfxl?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
-      username: root
-      password: cfxl
+      url: jdbc:mysql://43.143.168.45:3306/cfxl?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
+      username: cfxl
+      password: cfxl8888@
       #达梦8
 #      driver-class-name: dm.jdbc.driver.DmDriver
 #      url: jdbc:dm://192.168.10.10:5236/renren_security?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
@@ -42,6 +42,11 @@ spring:
       stat-view-servlet:
         enabled: true
         url-pattern: /druid/*
+management:
+  health:
+    defaults:
+      enabled: false
+
         #login-username: admin
         #login-password: admin
         #达梦数据库，需要注释掉，其他数据库可以打开

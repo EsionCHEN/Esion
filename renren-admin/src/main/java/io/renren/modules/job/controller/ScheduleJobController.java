@@ -18,15 +18,11 @@ import io.renren.common.validator.group.DefaultGroup;
 import io.renren.common.validator.group.UpdateGroup;
 import io.renren.modules.job.dto.ScheduleJobDTO;
 import io.renren.modules.job.service.ScheduleJobService;
-import io.renren.modules.job.task.XmlDayThread;
-import io.renren.modules.job.task.XmlMonthThread;
-import io.renren.modules.job.task.XmlThread;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -126,31 +122,5 @@ public class ScheduleJobController {
 		
 		return new Result();
 	}
-
-	@GetMapping("/ms")
-	@ApiOperation("采集SECOND/ALERT")
-	public Result collect(){
-		XmlThread xmlThread = new XmlThread("http://192.168.33.92");
-		XmlThread xmlThread2 = new XmlThread("http://192.168.14.92");
-		XmlThread xmlThread3 = new XmlThread("http://192.168.17.92");
-		xmlThread.run();
-		xmlThread2.run();
-		xmlThread3.run();
-		return new Result();
-	}
-
-	@GetMapping("/day")
-	@ApiOperation("采集DAY")
-	public Result collectDay(){
-		log.info("");
-		XmlDayThread xmlDayThread = new XmlDayThread("http://192.168.33.92");
-		XmlDayThread xmlDayThread2 = new XmlDayThread("http://192.168.14.92");
-		XmlDayThread xmlDayThread3 = new XmlDayThread("http://192.168.17.92");
-		xmlDayThread.run();
-		xmlDayThread2.run();
-		xmlDayThread3.run();
-		return new Result();
-	}
-
 
 }

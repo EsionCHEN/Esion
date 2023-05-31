@@ -20,6 +20,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  *
  * @author Mark sunlightcs@gmail.com
  */
+@EnableScheduling
 @SpringBootApplication
 public class AdminApplication extends SpringBootServletInitializer {
 
