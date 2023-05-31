@@ -1,10 +1,8 @@
 ### 项目说明
-- renren-security是一个轻量级的，前后端分离的Java快速开发平台，能快速开发项目并交付【接私活利器】
-- 采用SpringBoot、Shiro、MyBatis-Plus框架，开发的一套权限系统，极低门槛，拿来即用。设计之初，就非常注重安全性，为企业系统保驾护航，让一切都变得如此简单。
-- 提供了代码生成器，只需编写30%左右代码，其余的代码交给系统自动生成，可快速完成开发任务
-- 支持MySQL、达梦、Oracle、SQL Server、PostgreSQL等主流数据库
-- 前端地址：https://gitee.com/renrenio/renren-ui
-- 演示地址：http://demo.open.renren.io/renren-security （账号密码：admin/admin）
+XML采集系统 
+使用ren'ren框架搭建
+功能：XML解析，xml数据分割，xml数据采集
+ 定时管家，健康检查等
 
 <br>
 
