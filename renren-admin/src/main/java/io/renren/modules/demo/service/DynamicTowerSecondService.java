@@ -1,5 +1,6 @@
 package io.renren.modules.demo.service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import io.renren.common.service.CrudService;
 import io.renren.modules.demo.dto.DynamicTowerSecondDTO;
 import io.renren.modules.demo.dto.ResponseJsonDTO;
@@ -16,4 +17,5 @@ import java.util.List;
 public interface DynamicTowerSecondService extends CrudService<DynamicTowerSecondEntity, DynamicTowerSecondDTO> {
 
     List<DynamicTowerSecondEntity> collecct(String json);
+    DynamicTowerSecondEntity getOne(Wrapper<DynamicTowerSecondEntity> queryWrapper);
 }

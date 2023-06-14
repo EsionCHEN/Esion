@@ -45,6 +45,7 @@ public class JobCommandLineRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        task();
         List<ScheduleJobEntity> scheduleJobList = scheduleJobDao.selectList(null);
         for (ScheduleJobEntity scheduleJob : scheduleJobList) {
             CronTrigger cronTrigger = ScheduleUtils.getCronTrigger(scheduler, scheduleJob.getId());
@@ -54,43 +55,32 @@ public class JobCommandLineRunner implements CommandLineRunner {
             } else {
                 ScheduleUtils.updateScheduleJob(scheduler, scheduleJob);
             }
+        }
+    }
 
 
-            List<String> list = new ArrayList<>();
+    public void task(){
 
-            list.add(sendUrl930);
-            list.add(sendUrl924);
-            list.add(sendUrl917);
+        List<String> list = new ArrayList<>();
 
-//            list.add("127.0.0.1");
+        //线上配置
+        list.add(sendUrl930);
+        list.add(sendUrl924);
+        list.add(sendUrl917);
 
-            Thread thread = null;
-            for (int i = 0; i < list.size(); i++) {
-                thread = new XmlThread(list.get(i));
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-                }
-                System.out.println("第"+i+"个线程名称为：" + Thread.currentThread() + "开始执行...");
-                thread.start();
+        //本地调试
+//      list.add("127.0.0.1");
+
+        Thread thread = null;
+        for (int i = 0; i < list.size(); i++) {
+            thread = new XmlThread(list.get(i));
+            System.out.println("第"+i+"个线程名称为：" + Thread.currentThread().getName() + "开始执行...");
+            thread.start();
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-
-//            XmlThread xmlThread930 = new XmlThread(sendUrl930);
-//            XmlThread xmlThread924 = new XmlThread(sendUrl924);
-//            XmlThread xmlThread3917 = new XmlThread(sendUrl917);
-
-//            XmlThread xmlThread = new XmlThread("127.0.0.1");
-//            XmlThread xmlThread2 = new XmlThread("127.0.0.1");
-//            XmlThread xmlThread3 = new XmlThread("127.0.0.1");
-//            xmlThread924.run();
-//            System.out.println("=======================924线程采集==================");
-//            xmlThread3917.run();
-//            System.out.println("=======================917线程采集==================");
-//            xmlThread930.run();
-//            System.out.println("=======================930线程采集==================");
-
-
         }
     }
 }

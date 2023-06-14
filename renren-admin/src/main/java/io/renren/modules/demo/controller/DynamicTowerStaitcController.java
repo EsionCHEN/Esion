@@ -15,6 +15,7 @@ import io.renren.common.validator.group.UpdateGroup;
 import io.renren.modules.demo.dto.DynamicTowerDayDTO;
 import io.renren.modules.demo.dto.DynamicTowerStaitcDTO;
 import io.renren.modules.demo.entity.DynamicTowerDayEntity;
+import io.renren.modules.demo.entity.DynamicTowerSecondEntity;
 import io.renren.modules.demo.excel.DynamicTowerStaitcExcel;
 import io.renren.modules.demo.service.DynamicTowerStaitcService;
 import io.swagger.annotations.Api;
@@ -24,6 +25,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -147,5 +149,12 @@ public class DynamicTowerStaitcController {
            return null;
         }
         return json;
+    }
+
+    @PostMapping(value = "collect",consumes = MediaType.TEXT_PLAIN_VALUE)
+    @ApiOperation("数据采集")
+    public Result<List<DynamicTowerSecondEntity>> collect(@RequestBody String json){
+        List<DynamicTowerSecondEntity> collecct = dynamicTowerStaitcService.collecct(json);
+        return new Result<List<DynamicTowerSecondEntity>>().ok(collecct);
     }
 }

@@ -48,6 +48,37 @@ public interface TowerEnum {
 
     @Getter
     @AllArgsConstructor
+    enum CodeType{
+        SIXT(930,16),
+        TEN(924,10),
+        THREE(917,3)
+        ;
+        private Integer code;
+        private Integer zCode;
+
+        public static Integer getCodeByZCode(Integer zcode){
+            List<CodeType> codes = Arrays.asList(CodeType.values());
+            for (CodeType codeT : codes) {
+                if (codeT.getZCode().equals(zcode)) {
+                    return codeT.getCode();
+                }
+            }
+            return null;
+        }
+
+        public static Integer getZCodeByCode(Integer code){
+            List<CodeType> codes = Arrays.asList(CodeType.values());
+            for (CodeType codeT : codes) {
+                if (codeT.getCode().equals(code)) {
+                    return codeT.getZCode();
+                }
+            }
+            return null;
+        }
+    }
+
+    @Getter
+    @AllArgsConstructor
     enum AlertType{
         ONE(1,"一级预警","alert_level_1"),
         TWO(2,"二级预警","alert_level_2"),

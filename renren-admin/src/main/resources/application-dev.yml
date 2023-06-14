@@ -3,9 +3,21 @@ spring:
     druid:
       #MySQL
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://43.143.168.45:3306/cfxl?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
-      username: cfxl
-      password: cfxl8888@
+      url: jdbc:mysql://localhost:3306/renren_security?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
+      username: root
+      password: root
+  redis:
+    database: 10
+    host: 43.143.168.45
+    port: 6379
+    password: cfxl8888@   # 密码（默认为空）
+    timeout: 6000ms  # 连接超时时长（毫秒）
+    jedis:
+      pool:
+        max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1ms      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 10      # 连接池中的最大空闲连接
+        min-idle: 5       # 连接池中的最小空闲连接
       #达梦8
 #      driver-class-name: dm.jdbc.driver.DmDriver
 #      url: jdbc:dm://192.168.10.10:5236/renren_security?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
@@ -46,6 +58,8 @@ management:
   health:
     defaults:
       enabled: false
+
+
 
         #login-username: admin
         #login-password: admin

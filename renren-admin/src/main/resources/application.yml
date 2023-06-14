@@ -5,7 +5,7 @@ server:
     threads:
       max: 1000
       min-spare: 30
-  port: 8080
+  port: 8089
   servlet:
     context-path: /admin
     session:
@@ -24,7 +24,7 @@ knife4j:
 spring:
   # 环境 dev|test|prod
   profiles:
-    active: dev
+    active: prod
   messages:
     encoding: UTF-8
     basename: i18n/messages
@@ -52,7 +52,7 @@ spring:
 # 是否开启redis缓存  true开启   false关闭
 renren:
   redis:
-    open: false
+    open: true
 
 #mybatis
 mybatis-plus:
