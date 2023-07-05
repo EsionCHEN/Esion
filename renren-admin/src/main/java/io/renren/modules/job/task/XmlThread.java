@@ -75,7 +75,7 @@ public class XmlThread extends Thread {
                 String info = "";
                 String s = "";
 
-//                while (true) {
+                while (true) {
                 if (inputStream.available() > 0) {
                     inputStream.read(bytes);
                     String hexStr = XmlToMap.ByteArrayToHexStr(bytes);
@@ -114,11 +114,6 @@ public class XmlThread extends Thread {
                         break;
                     }
                 }
-//                }
-            }
-            if(socket == null){
-                if (!socket.isClosed()) {
-                    socket.close();
                 }
             }
         } catch (IOException e) {

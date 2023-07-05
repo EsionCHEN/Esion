@@ -68,15 +68,16 @@ public class JobCommandLineRunner implements CommandLineRunner {
 
         List<String> list = new ArrayList<>();
         //线上配置
-        list.add(sendUrl917);
-        list.add(sendUrl924);
-        list.add(sendUrl930);
+//        list.add(sendUrl917);
+//        list.add(sendUrl924);
+//        list.add(sendUrl930);
 
 
         //本地调试
-//        list.add("127.0.0.1");
+        list.add("127.0.0.1");
 
         Thread thread = null;
+
         for (int i = 0; i < list.size(); i++) {
             try {
                 thread = new XmlThread(list.get(i));
