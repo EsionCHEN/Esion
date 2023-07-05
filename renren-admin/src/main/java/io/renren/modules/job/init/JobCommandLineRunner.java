@@ -61,6 +61,7 @@ public class JobCommandLineRunner implements CommandLineRunner {
                 ScheduleUtils.updateScheduleJob(scheduler, scheduleJob);
             }
         }
+        task();
     }
 
 
@@ -74,7 +75,7 @@ public class JobCommandLineRunner implements CommandLineRunner {
 
 
         //本地调试
-        list.add("127.0.0.1");
+//        list.add("127.0.0.1");
 
         Thread thread = null;
 
