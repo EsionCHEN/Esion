@@ -6,7 +6,6 @@ E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\demo\control
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\security\oauth2\Oauth2Filter.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\sys\dao\SysRoleDao.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\security\service\impl\ShiroServiceImpl.java
-E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\job\task\XmlAlertTask.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\log\controller\SysLogErrorController.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\security\password\BCrypt.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\common\utils\TowerEnum.java
@@ -38,13 +37,13 @@ E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\sys\service\
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\log\service\impl\SysLogLoginServiceImpl.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\sys\dao\SysRoleMenuDao.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\sys\entity\SysRoleEntity.java
-E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\job\task\XmlDayThread.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\sys\entity\SysParamsEntity.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\demo\dto\DynamicTowerAlertDTO.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\security\controller\LoginController.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\oss\cloud\AliyunCloudStorageService.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\sys\service\impl\SysRoleMenuServiceImpl.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\sys\service\SysDeptService.java
+E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\job\task\RandomHealthIndicator.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\sys\redis\SysParamsRedis.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\sys\service\impl\SysParamsServiceImpl.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\security\oauth2\Oauth2Realm.java
@@ -56,7 +55,6 @@ E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\job\dao\Sche
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\security\user\SecurityUser.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\job\controller\ScheduleJobController.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\security\dao\SysUserTokenDao.java
-E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\job\task\TestTask.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\log\service\impl\SysLogErrorServiceImpl.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\sys\controller\SysDictDataController.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\job\controller\ScheduleJobLogController.java
@@ -88,13 +86,12 @@ E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\demo\excel\D
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\common\validator\group\QiniuGroup.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\demo\excel\DynamicTowerAlertExcel.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\AdminApplication.java
+E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\job\task\TestJob.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\job\dao\ScheduleJobLogDao.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\sys\dto\SysDictDataDTO.java
-E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\job\task\XmlMonthTask.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\sys\controller\SysDeptController.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\security\config\WebMvcConfig.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\demo\dao\DynamicTowerStaitcDao.java
-E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\job\task\XmlDayTask.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\sys\service\SysDictDataService.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\log\enums\LoginOperationEnum.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\job\service\impl\ScheduleJobLogServiceImpl.java
@@ -120,7 +117,6 @@ E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\sys\entity\D
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\sys\entity\SysDictTypeEntity.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\demo\service\DynamicTowerStaitcService.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\demo\service\DynamicTowerSecondService.java
-E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\job\task\XmlMonthThread.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\security\password\BCryptPasswordEncoder.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\job\service\ScheduleJobLogService.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\job\task\ITask.java
@@ -166,7 +162,6 @@ E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\sys\dao\SysD
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\common\validator\group\QcloudGroup.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\common\validator\group\AliyunGroup.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\sys\dto\PasswordDTO.java
-E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\job\task\XmlAlertThread.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\oss\cloud\OSSFactory.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\sys\service\impl\SysRoleUserServiceImpl.java
 E:\dev\workspace\Esion\renren-admin\src\main\java\io\renren\modules\sys\dto\SysMenuDTO.java

@@ -8,6 +8,7 @@
 
 package io.renren.modules.job.init;
 
+import io.renren.modules.job.config.ThreadConfig;
 import io.renren.modules.job.dao.ScheduleJobDao;
 import io.renren.modules.job.entity.ScheduleJobEntity;
 import io.renren.modules.job.task.XmlThread;
@@ -18,10 +19,14 @@ import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 初始化定时任务数据
@@ -59,28 +64,31 @@ public class JobCommandLineRunner implements CommandLineRunner {
     }
 
 
-    public void task(){
+    public void task() {
 
         List<String> list = new ArrayList<>();
-
         //线上配置
-        list.add(sendUrl930);
-        list.add(sendUrl924);
         list.add(sendUrl917);
+        list.add(sendUrl924);
+        list.add(sendUrl930);
+
 
         //本地调试
-//      list.add("127.0.0.1");
+//        list.add("127.0.0.1");
 
         Thread thread = null;
         for (int i = 0; i < list.size(); i++) {
-            thread = new XmlThread(list.get(i));
-            System.out.println("第"+i+"个线程名称为：" + Thread.currentThread().getName() + "开始执行...");
-            thread.start();
             try {
+                thread = new XmlThread(list.get(i));
                 Thread.sleep(2000);
+                System.out.println("第" + i + "个线程名称为：" + Thread.currentThread().getName() + "开始执行...");
+                thread.start();
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            }catch (Exception ex){
+                ex.printStackTrace();
             }
+
         }
     }
 }

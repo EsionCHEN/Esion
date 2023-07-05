@@ -5,7 +5,7 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://192.168.100.171:3306/cfxl?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
       username: root
-      password: cfxl
+      password: Chyxd@123.
       initial-size: 10
       max-active: 100
       min-idle: 10
@@ -32,6 +32,18 @@ spring:
         wall:
           config:
             multi-statement-allow: true
+  redis:
+    database: 11
+    host: 192.168.100.171
+    port: 6379
+    password: cfxl   # 密码（默认为空）
+    timeout: 6000ms  # 连接超时时长（毫秒）
+    jedis:
+      pool:
+        max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1ms      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 10      # 连接池中的最大空闲连接
+        min-idle: 5       # 连接池中的最小空闲连接
 
 
 url:

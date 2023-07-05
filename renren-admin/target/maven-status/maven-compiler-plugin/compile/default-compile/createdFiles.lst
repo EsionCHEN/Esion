@@ -11,7 +11,6 @@ io\renren\modules\sys\entity\SysDictTypeEntity.class
 io\renren\modules\security\config\ShiroConfig.class
 io\renren\common\utils\TowerEnum.class
 io\renren\modules\job\init\JobCommandLineRunner.class
-io\renren\modules\job\task\XmlDayThread.class
 io\renren\modules\log\service\impl\SysLogOperationServiceImpl.class
 io\renren\AdminApplication.class
 io\renren\modules\sys\controller\SysParamsController.class
@@ -28,9 +27,7 @@ io\renren\modules\demo\controller\DynamicTowerDayController.class
 io\renren\modules\log\enums\LoginStatusEnum.class
 io\renren\modules\job\utils\ScheduleUtils.class
 io\renren\modules\log\excel\SysLogOperationExcel.class
-io\renren\modules\job\task\XmlMonthTask.class
 io\renren\modules\demo\dto\ResponseJsonDTO.class
-io\renren\modules\job\task\TestTask.class
 io\renren\modules\oss\cloud\CloudStorageConfig.class
 io\renren\modules\sys\controller\SysDictDataController.class
 io\renren\modules\job\service\ScheduleJobService.class
@@ -105,7 +102,6 @@ io\renren\modules\security\oauth2\Oauth2Token.class
 io\renren\modules\sys\controller\SysDictTypeController.class
 io\renren\modules\demo\dto\DynamicTowerStaitcDTO.class
 io\renren\modules\sys\entity\SysUserEntity.class
-io\renren\modules\job\task\XmlAlertThread.class
 io\renren\modules\demo\excel\DynamicTowerAlertExcel.class
 io\renren\modules\log\excel\SysLogLoginExcel.class
 META-INF\spring-configuration-metadata.json
@@ -114,7 +110,6 @@ io\renren\common\utils\TowerEnum$TowerType.class
 io\renren\modules\demo\entity\DynamicTowerDayEntity.class
 io\renren\modules\sys\entity\SysRoleEntity.class
 io\renren\modules\security\service\impl\CaptchaServiceImpl.class
-io\renren\modules\job\task\XmlMonthThread.class
 io\renren\modules\security\password\BCrypt.class
 io\renren\modules\security\password\PasswordUtils.class
 io\renren\modules\log\dao\SysLogLoginDao.class
@@ -129,7 +124,6 @@ io\renren\common\aspect\LogOperationAspect.class
 io\renren\common\utils\ExcelUtils.class
 io\renren\modules\log\dto\SysLogLoginDTO.class
 io\renren\modules\demo\dao\DynamicTowerStaitcDao.class
-io\renren\modules\job\task\XmlDayTask.class
 io\renren\modules\sys\entity\SysDictDataEntity.class
 io\renren\modules\sys\service\SysDictDataService.class
 io\renren\modules\job\dto\ScheduleJobDTO.class
@@ -138,7 +132,6 @@ io\renren\modules\sys\entity\DictData.class
 io\renren\common\annotation\LogOperation.class
 io\renren\modules\log\service\SysLogLoginService.class
 io\renren\modules\sys\excel\SysUserExcel.class
-io\renren\modules\job\task\XmlAlertTask.class
 io\renren\modules\security\service\impl\SysUserTokenServiceImpl.class
 io\renren\modules\demo\service\DynamicTowerDayService.class
 io\renren\modules\sys\controller\SysMenuController.class
@@ -188,6 +181,7 @@ io\renren\modules\sys\enums\UserStatusEnum.class
 io\renren\modules\oss\cloud\AbstractCloudStorageService.class
 io\renren\common\interceptor\DataFilterInterceptor.class
 io\renren\modules\sys\service\impl\SysRoleMenuServiceImpl.class
+io\renren\modules\job\task\TestJob.class
 io\renren\modules\security\service\impl\ShiroServiceImpl.class
 io\renren\modules\sys\service\impl\SysRoleUserServiceImpl.class
 io\renren\modules\log\service\SysLogOperationService.class
@@ -199,4 +193,5 @@ io\renren\modules\sys\service\impl\SysDeptServiceImpl.class
 io\renren\common\validator\group\AliyunGroup.class
 io\renren\common\annotation\DataFilter.class
 io\renren\modules\sys\entity\SysMenuEntity.class
+io\renren\modules\job\task\RandomHealthIndicator.class
 io\renren\modules\security\oauth2\Oauth2Realm.class
